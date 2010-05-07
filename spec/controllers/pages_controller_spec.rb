@@ -4,6 +4,10 @@ describe PagesController do
   
   integrate_views
 
+  before(:each) do
+    print "begin new test:\n"
+  end
+
   #Delete these examples and add some real ones
   it "should use PagesController" do
     controller.should be_an_instance_of(PagesController)
