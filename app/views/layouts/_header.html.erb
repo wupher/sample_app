@@ -1,8 +1,9 @@
       <div id="header">
-        <%= image_tag("rails.png", :alt=>"sample App", :class=> "round") %>
+        <% logo = image_tag("rails.png", :alt=>"sample App", :class=> "round") %>
+        <%= link_to logo, root_path %>
         <ul class="navigation round">
-          <li><%= link_to 'Home', '#'%></li>
-          <li><%= link_to 'Help', '#'%></li>
-          <li><%= link_to 'Sign In', '#'%></li>
+          <li><%= link_to 'Home', root_path%></li>
+          <li><%= link_to 'Help', help_path%></li>
+          <li><%= link_to 'Sign In', signup_path%></li>
         </ul>
       </div>
