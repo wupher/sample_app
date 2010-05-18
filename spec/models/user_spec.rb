@@ -72,4 +72,14 @@ describe User do
       should_not be_valid
     end
   end
+
+  describe "password encryption" do
+    before (:each) do
+      @user = User.create!(@valid_attributes)
+    end
+    
+    it "should have an encryption password attribute" do
+      @user.should respond_to(:encrypted_password)
+    end
+  end
 end
