@@ -16,7 +16,9 @@ describe User do
   before(:each) do
     @valid_attributes = {
       :name => "value for name",
-      :email => "value_for@email.ok"
+      :email => "value_for@email.ok",
+      :password => "foobar",
+      :password_confirmation => "foobar"
     }
   end
 
@@ -62,5 +64,12 @@ describe User do
     User.create!(@valid_attributes.merge(:email=>upcased_email))
     user_with_duplicate_email = User.new(@valid_attributes)
     user_with_duplicate_email.should_not be_valid
+  end
+
+  describe "password validations" do
+    it "should require a password" do
+      User.new(@valid_attributes.merge(:password=>"", :password_confirmation=>"")).
+      should_not be_valid
+    end
   end
 end
