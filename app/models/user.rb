@@ -28,4 +28,14 @@ class User < ActiveRecord::Base
   validates_length_of :name, :maximum => 50
   validates_format_of :email, :with=>EmailRegex
   validates_uniqueness_of :email, :case_sensitive => false
+
+  before_save :encrypt_password
+  private
+    def encrypt_password
+      self.encrypted_password = encrypt(password)
+    end
+
+    def encrypt(string)
+      string  #a temportary implementation!
+    end
 end

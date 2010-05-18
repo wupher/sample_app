@@ -52,6 +52,7 @@ describe User do
     end
   end
 
+
   it "should reject the invalid email addresses" do
     addresses = %w'user@foo,com user_at_foo_bar example@foo.'
     addresses.each do |address|
@@ -81,6 +82,10 @@ describe User do
     
     it "should have an encryption password attribute" do
       @user.should respond_to(:encrypted_password)
+    end
+
+    it "should set the encrypted password" do
+      @user.encrypted_password.should_not be_blank
     end
   end
 end
