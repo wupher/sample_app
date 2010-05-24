@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20100518155704
+# Schema version: 20100524032134
 #
 # Table name: users
 #
@@ -9,6 +9,7 @@
 #  created_at         :datetime
 #  updated_at         :datetime
 #  encrypted_password :string(255)
+#  salt               :string(255)
 #
 
 require 'spec_helper'
@@ -86,6 +87,24 @@ describe User do
 
     it "should set the encrypted password" do
       @user.encrypted_password.should_not be_blank
+    end
+
+    describe "authenticate method" do
+      
+      it "should return nil on email/password mismatch" do
+        wrong_password_user = User.authenticate(@valid_attributes[:email],'wrongpass')
+        wrong_password_user.should be_nil
+      end
+    
+      it "should return nil for an email address with no user" do
+        nonexistent_user = User.authenticate("bar@foo.com.cn", @valid_attributes[:password])
+        nonexistent_user.should be_nil
+      end
+
+      it "should return THE user on email/password match" do
+        matching_user = User.authenticate(@valid_attributes[:email],@valid_attributes[:password])
+        matching_user.should == @user
+      end
     end
   end
 end

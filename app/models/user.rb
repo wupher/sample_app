@@ -1,4 +1,18 @@
 # == Schema Information
+# Schema version: 20100524032134
+#
+# Table name: users
+#
+#  id                 :integer         not null, primary key
+#  name               :string(255)
+#  email              :string(255)
+#  created_at         :datetime
+#  updated_at         :datetime
+#  encrypted_password :string(255)
+#  salt               :string(255)
+#
+
+# == Schema Information
 # Schema version: 20100518155704
 #
 # Table name: users
@@ -10,6 +24,7 @@
 #  updated_at         :datetime
 #  encrypted_password :string(255)
 #
+require 'digest'
 
 class User < ActiveRecord::Base
   #create a virtual attribute 'password'
@@ -31,16 +46,31 @@ class User < ActiveRecord::Base
 
   before_save :encrypt_password
 
+  def self.authenticate(email, submitted_password)
+    user = find_by_email(email)
+    return nil if user.nil?
+    return user if user.has_password?(submitted_password)
+  end
+
   #Return true if the user's password matches the submitted password.
   def has_password?(submitted_password)
     encrypted_password == encrypt(submitted_password)
   end
   private
     def encrypt_password
+      self.salt = make_salt   #别被它们的形式唬了，其实是调用了一个函数salt=
       self.encrypted_password = encrypt(password)
     end
 
     def encrypt(string)
-      string  #a temportary implementation!
+      secure_hash("#{salt}#{string}")
+    end
+
+    def make_salt
+      secure_hash("#{Time.now.utc}#{password}")
+    end
+    
+    def secure_hash(string)
+      Digest::SHA2.hexdigest(string)
     end
 end
