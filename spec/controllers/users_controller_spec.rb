@@ -20,4 +20,17 @@ describe UsersController do
       response.should have_tag('title', /Sign Up/)
     end
   end
+
+  describe "GET 'show'" do
+
+    before(:each) do
+      @user = Factory(:user)
+      User.stub!(:find,@user.id).and_return(@user)
+    end
+    
+    it "should be successful" do
+      get :show, :id=>@user
+      response.should be_success
+    end
+  end
 end
