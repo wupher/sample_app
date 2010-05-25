@@ -4,7 +4,7 @@ module ApplicationHelper
     if @title.nil?
       "Rails Sample Application"
     else
-      @title
+      h @title
     end
   end
 
