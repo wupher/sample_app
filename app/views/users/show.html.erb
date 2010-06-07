@@ -1,2 +1,14 @@
-<h2><a href="http://gravatar.com"><%=gravatar_for @user %></a><%= @user.name %></h2>
-<%=@user.email%>
+<table class="profile">
+  <tr>
+    <td class="main">
+      <h2>
+        <%= gravatar_for @user%>
+        <%= h @user.name%>
+      </h2>
+    </td>
+    <td class="sidebar round">
+      <stong>Name： </stong><%=h @user.name %> <br />
+      <stong>URL： </stong><%= link_to user_path(@user), @user %>
+    </td>
+  </tr>
+</table>
